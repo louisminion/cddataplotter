@@ -6,7 +6,8 @@ import argparse
 import pathlib
 import threading
 import itertools, sys
-
+import os
+spinner = itertools.cycle(['-', '/', '|', '\\'])
 print('CD ORIGIN PLOTTER \n Parses Applied Photophysics Chirascan output and plots key properties in an origin project. \n Louis Minion 2023')
 
 def loadCDdata(filename):
@@ -140,11 +141,15 @@ def createOriginBook(filenamepath):
     layr.lt_exec(f'set {pname} -w 2500')
     gplot.color = '#ff0000'
     # Save the opju.
-    op.save('{}.opju'.format(str(filename)[:-4]))
+    a = op.save('{}.opju'.format(str( pathlib.Path(os.getcwd()) / filenamepath.name)[:-4]))
+    print(' Saved at :{}.opju'.format(str( pathlib.Path(os.getcwd()) / filenamepath.name)[:-4]))
     return False
 
 t = threading.Thread(target=createOriginBook, args=[filenamepath])
 t.run()
+while t.is_alive():
+    sys.stdout.flush()                # flush stdout buffer (actual character display)
+    sys.stdout.write('\b')     
 
 # Exit running instance of Origin.
 if op.oext:
