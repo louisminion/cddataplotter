@@ -10,3 +10,5 @@ CD ORIGIN PLOTTER
  Louis Minion 2023
 Will process file:$filename
 ```
+Requirements:
+Requires numpy, pandas, originpro and a working installation of OriginLab >= 2020
