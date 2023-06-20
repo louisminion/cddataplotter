@@ -1,6 +1,6 @@
 # cddataplotter
 Automatically parses Applied Photophysics Circular Dichroism Spectrometer ouput and plots data in origin.
-Input csv files on the command line and watch as the program creates beautiful origin plots of CD, Absorbance and g~abs~
+Input csv files on the command line and watch as the program creates beautiful origin plots of CD, Absorbance and g<sub>abs</sub>
 
 Usage:
 ```console
