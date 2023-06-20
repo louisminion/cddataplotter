@@ -6,7 +6,7 @@ import argparse
 import pathlib
 import threading
 import itertools, sys
-spinner = itertools.cycle(['-', '/', '|', '\\'])
+
 print('CD ORIGIN PLOTTER \n Parses Applied Photophysics Chirascan output and plots key properties in an origin project. \n Louis Minion 2023')
 
 def loadCDdata(filename):
@@ -145,9 +145,6 @@ def createOriginBook(filenamepath):
 
 t = threading.Thread(target=createOriginBook, args=[filenamepath])
 t.run()
-while t.is_alive():
-    sys.stdout.flush()                # flush stdout buffer (actual character display)
-    sys.stdout.write('\b')     
 
 # Exit running instance of Origin.
 if op.oext:
