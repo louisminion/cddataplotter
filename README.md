@@ -11,4 +11,9 @@ CD ORIGIN PLOTTER
 Will process file:$filename
 ```
 Requirements:
-Requires numpy, pandas, originpro and a working installation of OriginLab >= 2020
+Requires python, numpy, pandas, originpro and a working installation of OriginLab >= 2020
+
+Installation instructions:
+- Ensure you have both Python 3.8+ and OriginLab 2020.0 or a more recent version installed.
+- Install the required python libraries by running `pip -r requirements.txt`
+- You're ready to go!
