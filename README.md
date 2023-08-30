@@ -17,3 +17,6 @@ Installation instructions:
 - Ensure you have both Python 3.8+ and OriginLab 2020.0 or a more recent version installed.
 - Install the required python libraries by running `pip -r requirements.txt`
 - You're ready to go!
+
+Known issues: 
+- When working with data from older versions of Chirascan spectrometers the number of introductory lines may differ. This code has been tested on the Fuchter group Chirascan V100 output only.
