@@ -42,40 +42,23 @@ def loadCDdata(filename):
     experimentinfo['StartWavelength'] = n[1]
     experimentinfo['EndWavelength'] = n[0]
     nws = int(experimentinfo['StartWavelength']-experimentinfo['EndWavelength']+1)
-    CDdf = pd.read_csv(filename, skiprows=37, nrows=nws, header=None)
+    skiprparam = 37
+    CDdf = pd.read_csv(filename, skiprows=skiprparam, nrows=nws, header=None)
     CDdf.columns =['Wavelength', 'CD']
-    HVdf = pd.read_csv(filename, skiprows=(37+3+int(nws)), nrows=nws,header=None)
+    HVdf = pd.read_csv(filename, skiprows=(skiprparam+3+int(nws)), nrows=nws,header=None)
     HVdf.columns = ['Wavelength', 'HV']
-    Absdf = pd.read_csv(filename, skiprows=(37+6+2*int(nws)), nrows=nws,header=None)
+    Absdf = pd.read_csv(filename, skiprows=(skiprparam+6+2*int(nws)), nrows=nws,header=None)
     Absdf.columns = ['Wavelength', 'Abs']
-    Voltagedf = pd.read_csv(filename, skiprows=(37+9+3*int(nws)), nrows=nws,header=None)
+    Voltagedf = pd.read_csv(filename, skiprows=(skiprparam+9+3*int(nws)), nrows=nws,header=None)
     Voltagedf.columns = ['Wavelength', 'Voltage']
-    Countdf = pd.read_csv(filename, skiprows=(37+12+4*int(nws)), nrows=nws,header=None)
+    Countdf = pd.read_csv(filename, skiprows=(skiprparam+12+4*int(nws)), nrows=nws,header=None)
     Countdf.columns = ['Wavelength', 'Count']
-    SEdf = pd.read_csv(filename, skiprows=(37+15+5*int(nws)), nrows=nws,header=None)
+    SEdf = pd.read_csv(filename, skiprows=(skiprparam+15+5*int(nws)), nrows=nws,header=None)
     SEdf.columns = ['Wavelength', 'SE']
-    Tempdf = pd.read_csv(filename, skiprows=(37+18+6*int(nws)), nrows=nws,header=None)
+    Tempdf = pd.read_csv(filename, skiprows=(skiprparam+18+6*int(nws)), nrows=nws,header=None)
     Tempdf.columns = ['Wavelength', 'Temp']
     result = {'experimentinfo':experimentinfo, 'CD':CDdf, 'HV':HVdf, 'Abs':Absdf, 'Voltage':Voltagedf, 'Count':Countdf, 'SE':SEdf, 'Temp':Tempdf}
     return result
-
-
-
-
-# Ensures that the Origin instance gets shut down properly.
-import sys
-def origin_shutdown_exception_hook(exctype, value, traceback):
-    op.exit()
-    sys.__excepthook__(exctype, value, traceback)
-if op and op.oext:
-    sys.excepthook = origin_shutdown_exception_hook
-
-
-# Set Origin instance visibility.
-if op.oext:
-    op.set_show(True)
-
-# YOUR CODE HERE
 parser = argparse.ArgumentParser(
                     prog='Chirascan Origin Plotter',
                     description='Parses Applied Photophysics Chirascan output and plots key properties in an origin project.',
@@ -144,6 +127,21 @@ def createOriginBook(filenamepath):
     a = op.save('{}.opju'.format(str( pathlib.Path(os.getcwd()) / filenamepath.name)[:-4]))
     print(' Saved at :{}.opju'.format(str( pathlib.Path(os.getcwd()) / filenamepath.name)[:-4]))
     return False
+
+# Ensures that the Origin instance gets shut down properly.
+import sys
+def origin_shutdown_exception_hook(exctype, value, traceback):
+    op.exit()
+    sys.__excepthook__(exctype, value, traceback)
+if op and op.oext:
+    sys.excepthook = origin_shutdown_exception_hook
+
+
+# Set Origin instance visibility.
+if op.oext:
+    op.set_show(True)
+
+
 
 t = threading.Thread(target=createOriginBook, args=[filenamepath])
 t.run()
